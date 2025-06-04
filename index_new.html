@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+                    <html lang="de">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>KONZERT</title>
+                        <link rel="preconnect" href="https://fonts.googleapis.com">
+                        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                        <link href="https://fonts.googleapis.com/css2?family=Alumni+Sans+SC:ital,wght@0,100..900;1,100..900&family=Chau+Philomene+One:ital@0;1&display=swap" rel="stylesheet">
+                        <script src="https://cdn.tailwindcss.com"></script>
+                        <style>
+                            body {
+                                overflow: hidden; /* Prevent scrolling */
+                                font-family: "Chau Philomene One", sans-serif;
+                                font-weight: 400;
+                                font-style: normal;
+                            }
+
+                            .door-panel {
+                                box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7); /* Subtle inner shadow for depth */
+                            }
+            
+                            .door-knob {
+                                width: 55px;
+                                height: 55px;
+                                margin-top: 20px;
+                                background-color: #3e3c3a;
+                                border-radius: 50%;
+                                transform: translateY(-50%);
+                                /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(0, 0, 0, 0.7); */
+                                box-shadow: 0 0 2px rgba(253, 217, 138, 0.803), inset 0 0 10px rgba(0, 0, 0, 0.7); 
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                transition: box-shadow 0.3s ease; /* Smooth transition for glow */
+                            }
+            
+                            .door-knob:hover {
+                                box-shadow: 0 0 20px rgba(255, 255, 255, 0.8), inset 0 0 10px rgba(0, 0, 0, 0.7); 
+                                cursor: pointer; /* Change cursor to pointer */
+                            }
+            
+                            .door-knob::before {
+                                content: '';
+                                width: 20px;
+                                height: 20px;
+                                background-color: #222;
+                                border-radius: 50%;
+                                box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.8);
+                            }
+
+                            .light-slit {
+                                position: absolute;
+                                top: 0;
+                                right: 0;
+                                width: 4px;
+                                height: 100%;
+                                background: linear-gradient(to bottom, #ffffff, #ffe0e0, #cceeff, #ffffff);
+                                background-size: 100% 300%;
+                                animation: pulse-light 4s infinite ease-in-out, color-shift 6s infinite ease-in-out; /* Keep color-shift separate if you want its own cycle */
+                                filter: blur(4px);
+                                z-index: 50;
+                            }
+
+                            @keyframes pulse-light {
+                                0%, 100% { opacity: 0.5; width: 4px; }
+                                50% { opacity: 1; width: 4px; }
+                            }
+
+                            @keyframes color-shift {
+                                0% { background-position: 0% 0%; }
+                                50% { background-position: 0% 100%; }
+                                100% { background-position: 0% 0%; }
+                            }
+
+
+                            @keyframes fillGlow {
+                                0%, 100% {
+                                    fill: #ffffff1b;
+                                    opacity: 0.5;
+                                }
+                                50% {
+                                    fill: #5f5a47a3;
+                                    opacity: 1;
+                                }
+                            }
+
+                            .keyhole-fill {
+                                animation: fillGlow 4s ease-in-out infinite; /* This is for the fill color, keep separate if you want a different glow */
+                            }
+
+                            .animate-keyhole-glow {
+                                animation: keyhole-glow 4s ease-in-out infinite; /* Match duration and timing function of pulse-light */
+                            }
+
+                            @keyframes keyhole-glow {
+                                0%, 100% {
+                                    filter: drop-shadow(0 0 1px white) drop-shadow(0 0 1px white);
+                                    opacity: 0.8;
+                                }
+                                50% {
+                                    filter: drop-shadow(0 0 1px white) drop-shadow(0 0 1px white);
+                                    opacity: 1;
+                                }
+                            }
+
+                            .shake {
+                                animation: shake 0.5s;
+                            }
+            
+                            @keyframes shake {
+                                0% { transform: translateX(0); }
+                                10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+                                20%, 40%, 60%, 80% { transform: translateX(10px); }
+                                100% { transform: translateX(0); }
+                            }
+            
+                            #closed-text {
+                                position: absolute;
+                                top: 55%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);
+                                color: white;
+                                font-size: 1.5em;
+                                opacity: 0;
+                                transition: opacity 0.5s ease;
+                            }
+                        </style>
+                    </head>
+                    <body class="font-chau bg-black flex items-center justify-center h-screen w-screen">
+            
+                        <div class="relative h-full w-full bg-neutral-900 shadow-lg flex flex-col justify-between p-4 shake-container">
+                            <div class="flex-grow bg-neutral-900 border border-zinc-950 rounded-lg m-6 door-panel flex flex-col justify-center items-center">
+            
+                                <div class="relative w-1/2 h-auto">
+                                    <div class="h-[20px]"></div>
+                                  <img src="poster.png" class="w-full h-auto block cursor-pointer" id="poster-img"/>
+                              
+                                  <img src="tape.png" class="absolute w-[35px] h-[50px] top-1 left-0 rotate-90 opacity-40" />
+                                  <img src="tape.png" class="absolute w-[35px] h-[50px] top-1 -right-3 opacity-40" />
+                                  <img src="tape.png" class="absolute w-[35px] h-[50px] -bottom-4 -left-2 opacity-40" />
+                                  <img src="tape.png" class="absolute w-[35px] h-[50px] -bottom-5 -right-2 rotate-90 opacity-40"/>
+                                </div>
+
+                                <div id="modal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden">
+                                    <img src="poster.png" class="w-full max-w-[90vw] max-h-[90vh] rounded-lg shadow-2xl object-contain" />
+                                    <button id="close-modal" class="absolute top-4 right-4 text-white text-3xl font-bold">&times;</button>
+                                </div>
+                            </div>
+                              
+                            <!-- <div class="door-knob ml-auto"></div> -->
+                            <div class="door-knob ml-auto relative">
+                                <!-- <svg class="keyhole absolute w-6 h-6 mt-24" viewBox="0 0 28.457 28.456" xmlns="http://www.w3.org/2000/svg"> -->
+                                    <svg class="keyhole absolute w-5 h-5 mt-24 text-white animate-keyhole-glow" viewBox="0 0 28.457 28.456" xmlns="http://www.w3.org/2000/svg">
+                                        <path class="keyhole-fill" fill="#c0beb984" d="M21.015,6.986c0,2.627-1.449,4.916-3.593,6.108c3.991,15.362,3.991,15.362,3.991,15.362s-13.619,0-14.144,0
+                                        c4.145-14.989,0,0,4.145-14.989C8.853,12.433,7.042,9.92,7.042,6.986C7.042,3.127,10.169,0,14.028,0
+                                        C17.888,0,21.015,3.127,21.015,6.986z"/>                                       
+                                </svg>
+                              </div>
+            
+                            <div class="flex-grow bg-neutral-900 border border-zinc-950 rounded-lg m-6 door-panel">
+                                <div class="mt-16 text-center">
+                                    <h1 class="text-xl text-orange-100 mt-auto bold opacity-60">THE DOOR YOU DIDN'T TRY</h1>
+                                    <h4 class="text-orange-50 mt-1 text-sm italic opacity-60">where could it have led?</h4>
+                                </div>
+                            </div>
+                        
+                            
+                        
+                            <div class="light-slit"></div>
+                            <div class="absolute top-0 right-0 w-1 h-full bg-gradient-to-b from-cyan-300 via-pink-200 to-yellow-200 opacity-30 blur-md animate-pulse z-40"></div>
+                            <div id="closed-text">It's closed. <br /> Try again later.</div>
+                        </div>
+            
+                        <script>
+                            const doorKnob = document.querySelector('.door-knob');
+                            const container = document.querySelector('.shake-container');
+                            const closedText = document.getElementById('closed-text');
+            
+                            doorKnob.addEventListener('click', () => {
+                                container.classList.add('shake');
+                                closedText.style.opacity = 1;
+            
+                                setTimeout(() => {
+                                    container.classList.remove('shake');
+                                    closedText.style.opacity = 0;
+                                }, 2000);
+                            });
+
+                            const modal = document.getElementById('modal');
+const posterImg = document.getElementById('poster-img');
+const closeModal = document.getElementById('close-modal');
+
+posterImg.addEventListener('click', () => {
+    modal.classList.remove('hidden');
+});
+
+closeModal.addEventListener('click', () => {
+    modal.classList.add('hidden');
+});
+
+// Optional: Close modal on background click
+modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        modal.classList.add('hidden');
+    }
+});
+
+                        </script>
+                    </body>
+                    </html>
